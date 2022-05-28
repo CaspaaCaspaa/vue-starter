@@ -1,7 +1,8 @@
 <template>
   <div>
 	<h1>Twoj email: {{ email }} </h1>
-	<div v-if="!logLogged">
+	<div v-if="!loggedThatsUser">
+		<login-form @login="logIn($event)" button-label="wejdź"></login-form>
 		<login-form @login="logIn($event)"></login-form>
 
 <!-- 		Zaloguj sie emailem:
@@ -12,9 +13,11 @@
 		<button @click="logIn()">Zaloguj</button> -->
 	</div>	
 	
-	<div v-else="logLogged">
-	<h2>Witaj {{ logLogged }}</h2>
-	<button @click="logOut()">Wyloguj</button>
+	<div v-else="loggedThatsUser">
+		<log-out :loggedUser="loggedThatsUser" @logout="logOut($event)"></log-out>
+	
+<!-- 	<h2>Witaj {{ loggedThatsUser }}</h2>
+	<button @click="logOut()">Wyloguj</button> -->
 	</div>
 	</div>
 	
@@ -25,12 +28,13 @@
 <script>
 import "milligram";
 import LoginForm from "./LoginForm";
+import LogOut from "./LogOut";
 export default {
-	components: {LoginForm},
+	components: {LoginForm,LogOut},
 	data (){
 		return {
 			email: ''
-			,logLogged: false
+			,loggedThatsUser: false
 		}
 	},
 	methods: {
@@ -38,10 +42,10 @@ export default {
 			alert(this.email);
 			}	
 		,logIn (username){
-			this.logLogged = username;
+			this.loggedThatsUser = username;
 			}
 		,logOut(){
-			this.logLogged = false
+			this.loggedThatsUser = false
 		},
 	},
   }
